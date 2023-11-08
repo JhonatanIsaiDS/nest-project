@@ -1,37 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import * as USER from '../../json/user.json';
 import { UserModel } from 'src/model/user.model';
+import { UsuarioEntitie } from 'src/entities/usuario.entitie';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class UserService {
-  constructor() {}
+  constructor(
+    @InjectRepository(UsuarioEntitie)
+    private usuarioRepository: Repository<UsuarioEntitie>,
+  ) {}
 
   private user = USER;
 
   async getAllUsers() {
-    return this.user;
+    return await this.usuarioRepository.find({});
   }
-  async getUser(id: number) {
-    return this.user.find((user) => user.id === id);
+  async getUser(idUsuario: number) {
+    const result = await this.usuarioRepository.findOne({
+      where: {
+        idUsuario: idUsuario,
+      },
+    });
+    return result;
   }
 
   async createUser(body: UserModel) {
-    console.log(this.user.length + 1);
-    this.user.push({
-      id: this.user.length + 1,
-      name: body.name,
-      age: body.age,
+    const newUser = await this.usuarioRepository.create({
+      nombre: body.nombre,
+      edad: body.edad,
     });
 
-    return this.user;
+    return await this.usuarioRepository.save(newUser);
   }
 
   async updateUser(body: UserModel) {
-    this.user.map((user) => {
-      if (user.id === body.id) {
-        user.name = body.name;
-        user.age = body.age;
-      }
-    });
-    return this.user;
+    const updateUser = await this.usuarioRepository.update(
+      {
+        idUsuario: body.idUsuario,
+      },
+      {
+        nombre: body.nombre,
+        edad: body.edad,
+      },
+    );
+    return updateUser;
   }
 }

@@ -5,14 +5,14 @@ export class UserModel {
   @ApiProperty()
   @IsOptional()
   @IsNumber()
-  id: number;
+  idUsuario: number;
 
   @ApiProperty()
   @IsOptional()
-  name: string;
+  nombre: string;
 
   @ApiProperty()
   @IsOptional()
   @IsNumber()
-  age: number;
+  edad: number;
 }

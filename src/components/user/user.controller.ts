@@ -1,10 +1,20 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
 import { UserModel } from 'src/model/user.model';
+import { TransformInterceptor } from 'src/middleware/interceptors/transform.interceptor';
 
 @ApiTags('User')
 @Controller('user')
+@UseInterceptors(TransformInterceptor)
 export class UserController {
   constructor(private userService: UserService) {}
 
