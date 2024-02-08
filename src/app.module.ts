@@ -27,8 +27,6 @@ export const dbOptions: TypeOrmModuleOptions = {
   connectTimeout: 2000,
 };
 
-console.log(dbOptions);
-
 @Module({
   imports: [
     TypeOrmModule.forRoot(dbOptions),

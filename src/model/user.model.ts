@@ -15,4 +15,8 @@ export class UserModel {
   @IsOptional()
   @IsNumber()
   edad: number;
+
+  @ApiProperty()
+  @IsOptional()
+  telefono: string;
 }

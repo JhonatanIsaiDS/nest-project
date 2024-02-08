@@ -1,14 +1,5 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-@Entity('Usuario', { schema: 'Usuarios' })
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+@Entity('Usuarios', { schema: 'Usuarios' })
 export class UsuarioEntitie {
   @PrimaryGeneratedColumn({ type: 'int', name: 'IdUsuario' })
   idUsuario: number;
@@ -18,4 +9,7 @@ export class UsuarioEntitie {
 
   @Column('int', { name: 'Edad' })
   edad: number;
+
+  @Column('varchar', { name: 'Telefono', length: 15 })
+  telefono: string;
 }

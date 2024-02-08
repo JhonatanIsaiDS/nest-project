@@ -14,7 +14,9 @@ export class UserService {
   private user = USER;
 
   async getAllUsers() {
-    return await this.usuarioRepository.find({});
+    const result = await this.usuarioRepository.find();
+    console.log(result);
+    return result;
   }
   async getUser(idUsuario: number) {
     const result = await this.usuarioRepository.findOne({
@@ -29,19 +31,26 @@ export class UserService {
     const newUser = await this.usuarioRepository.create({
       nombre: body.nombre,
       edad: body.edad,
+      telefono: body.telefono,
     });
 
     return await this.usuarioRepository.save(newUser);
   }
 
   async updateUser(body: UserModel) {
+    const searchOldUser = await this.usuarioRepository.findOne({
+      where: {
+        idUsuario: body.idUsuario,
+      },
+    });
     const updateUser = await this.usuarioRepository.update(
       {
         idUsuario: body.idUsuario,
       },
       {
-        nombre: body.nombre,
-        edad: body.edad,
+        nombre: body.nombre ?? searchOldUser?.nombre,
+        edad: body.edad ?? searchOldUser?.edad,
+        telefono: body.telefono ?? searchOldUser?.telefono,
       },
     );
     return updateUser;
